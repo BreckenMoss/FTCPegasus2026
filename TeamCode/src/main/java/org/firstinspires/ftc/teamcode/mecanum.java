@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,8 +15,10 @@ import java.util.Date;
 @TeleOp
 
 public class mecanum extends OpMode {
-    @Override
-    public static void initMotors() {
+    
+    private DcMotor frontLeft, frontRight, backRight, backLeft;
+    
+    public void init() {
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
@@ -25,13 +28,11 @@ public class mecanum extends OpMode {
         frontRight.setDirection(DcMotor.Direction.REVERSE);
         telemetry.addData("Status", "Initialized");
     }
-    public void main() {
-        initMotors();
-        while (opModeIsActive) {
-            frontRight.setPower(-gamepad1.left_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x);
-            backRight.setPower(-gamepad1.left_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x);
-            frontLeft.setPower(-gamepad1.left_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x);
-            backLeft.setPower(-gamepad1.left_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x);
-        }
+    @Override
+    public void loop() {
+        frontRight.setPower(-gamepad1.left_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x);
+        backRight.setPower(-gamepad1.left_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x);
+        frontLeft.setPower(-gamepad1.left_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x);
+        backLeft.setPower(-gamepad1.left_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x);
     }
 }
