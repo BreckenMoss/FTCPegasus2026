@@ -20,6 +20,7 @@ public class Drive extends OpMode {
     
     private DcMotor frontLeft, frontRight, backRight, backLeft, flyWheel;
     private CRServo feeder;
+    private Servo extractor;
     
     public void init() {
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
@@ -27,7 +28,8 @@ public class Drive extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         flyWheel = hardwareMap.get(DcMotor.class, "flyWheel");
-        feeder     = hardwareMap.get(CRServo.class, "feeder");
+        feeder = hardwareMap.get(CRServo.class, "feeder");
+        extractor = hardwareMap.get(Servo.class, "extractor");
         
         backRight.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -44,7 +46,7 @@ public class Drive extends OpMode {
         telemetry.update();
 
         double ly = -gamepad1.left_stick_y;
-        double lx = gamepad1.left_stick_x * 1.1;
+        double lx = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
         double denominator = Math.max(Math.abs(ly) + Math.abs(lx) + Math.abs(rx), 1.0);
 
@@ -53,11 +55,18 @@ public class Drive extends OpMode {
         frontLeft.setPower((ly + rx + lx) / denominator);
         backLeft.setPower((ly + rx - lx) / denominator);
 
-        if (gamepad1.right_trigger > 0.5) {
+        if (gamepad1.a) {
             feeder.setPower(0.6);
         } else {
             feeder.setPower(0);
         }
+
+        if (gamepad1.right_trigger > 0.5) {
+            extractor.setPosition(1);
+        } else {
+            extractor.setPosition(0.5);
+        }
+
     }
     @Override
     public void stop() {
