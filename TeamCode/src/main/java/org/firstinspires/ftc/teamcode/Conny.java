@@ -14,11 +14,11 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@TeleOp(name = "Drive")
+@TeleOp(name = "")
 
-public class Drive extends OpMode {
+public class Conny extends OpMode {
     
-    private DcMotor frontLeft, frontRight, backRight, backLeft, flyWheel;
+    private DcMotor frontLeft, frontRight, backRight, backLeft, flyWheel, intake;
     private CRServo feeder;
     private Servo extractor;
     
@@ -29,44 +29,48 @@ public class Drive extends OpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         flyWheel = hardwareMap.get(DcMotor.class, "flyWheel");
         feeder = hardwareMap.get(CRServo.class, "feeder");
+        intake = hardwareMap.get(DcMotor.class, "intake");
         extractor = hardwareMap.get(Servo.class, "extractor");
         
         backRight.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        intake.setDirection(DcMotor.Direction.REVERSE);
         telemetry.addData("Status", "Initialized");
     }
 
     @Override
 
     public void start() {
-        flyWheel.setPower(0.6);
+        flyWheel.setPower(0.42);
     }
 
     public void loop() {
         telemetry.update();
-
+        
+    //Driver
         double ly = -gamepad1.left_stick_y;
         double lx = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
         double denominator = Math.max(Math.abs(ly) + Math.abs(lx) + Math.abs(rx), 1.0);
 
-        frontRight.setPower((ly - rx + lx) / denominator);
-        backRight.setPower((ly - rx - lx) / denominator);
+        frontRight.setPower((ly - rx - lx) / denominator);
+        backRight.setPower((ly - rx + lx) / denominator);
         frontLeft.setPower((ly + rx + lx) / denominator);
         backLeft.setPower((ly + rx - lx) / denominator);
 
-        if (gamepad1.a) {
-            feeder.setPower(0.6);
+    //Manipulator
+        if (gamepad2.b) {
+            feeder.setPower(1);
         } else {
             feeder.setPower(0);
         }
 
-        if (gamepad1.right_trigger > 0.5) {
-            extractor.setPosition(1);
+        if (gamepad2.right_trigger > 0.5) {
+            intake.setPower(1);
         } else {
-            extractor.setPosition(0.5);
+            intake.setPower(0);
         }
-
     }
     @Override
     public void stop() {
