@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@TeleOp(name = "")
+@TeleOp(name = "Conny")
 
 public class Conny extends OpMode {
     
@@ -42,7 +42,7 @@ public class Conny extends OpMode {
     @Override
 
     public void start() {
-        flyWheel.setPower(0.42);
+        flyWheel.setPower(0.43);
     }
 
     public void loop() {
@@ -58,6 +58,12 @@ public class Conny extends OpMode {
         backRight.setPower((ly - rx + lx) / denominator);
         frontLeft.setPower((ly + rx + lx) / denominator);
         backLeft.setPower((ly + rx - lx) / denominator);
+        
+        if (gamepad1.y) {
+            flyWheel.setPower(0.45);
+        } else {
+            flyWheel.setPower(0.43);
+        }
 
     //Manipulator
         if (gamepad2.b) {

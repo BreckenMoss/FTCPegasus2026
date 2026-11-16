@@ -41,10 +41,14 @@ public class AutoNoShoot extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         
-        frontRight.setPower(-1);
-        backLeft.setPower(-1);
-        sleep(250);
+        frontRight.setPower(1);
+        backRight.setPower(1);
+        frontLeft.setPower(1);
+        backLeft.setPower(1);
+        sleep(750);
         frontRight.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
         backLeft.setPower(0);
     }
 }

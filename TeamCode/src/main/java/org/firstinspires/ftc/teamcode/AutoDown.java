@@ -41,19 +41,20 @@ public class AutoDown extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         
-        sleep(11000);
+        sleep(13000);
         flyWheel.setPower(0.43);
         sleep(3000);
-        feeder.setPower(1);
-            sleep(1500);
-            feeder.setPower(0);
-            sleep(1000);
+        feeder.setPower(1); 
+        sleep(1500);
+        feeder.setPower(0);
+        sleep(1000);
         for (int i = 0; i < 4; i++) {
             feeder.setPower(1);
             intake.setPower(0.7);
-            sleep(1500);
+            sleep(1250);
+            feeder.setPower(0); 
+            sleep(500);
             intake.setPower(0);
-            feeder.setPower(0);
             sleep(1000);
         }
         flyWheel.setPower(0);
@@ -63,3 +64,4 @@ public class AutoDown extends LinearOpMode {
         frontRight.setPower(0);
         backLeft.setPower(0);
     }
+}
